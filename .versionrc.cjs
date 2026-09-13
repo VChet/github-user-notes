@@ -1,6 +1,7 @@
 module.exports = {
   tagPrefix: "",
   bumpFiles: [
+    "package.json",
     { filename: "github-user-notes.user.js", updater: "meta-updater.js" }
   ],
   scripts: {
