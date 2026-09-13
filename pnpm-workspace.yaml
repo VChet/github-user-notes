@@ -1,0 +1,9 @@
+minimumReleaseAge: 0
+minimumReleaseAgeExcludePrune: true
+
+pmOnFail: ignore
+trustPolicy: no-downgrade
+
+ignoreScripts: true
+shellEmulator: true
+packages: [.]
