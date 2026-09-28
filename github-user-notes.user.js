@@ -55,6 +55,7 @@
 
     const textareaEl = document.createElement("textarea");
     textareaEl.classList.add("form-control", "FormControl-input", "FormControl-textarea");
+    textareaEl.id = "github-user-notes-textarea";
     textareaEl.maxLength = MAX_NOTE_LENGTH;
     textareaEl.placeholder = "Enter your note here…";
     textareaEl.value = note;
