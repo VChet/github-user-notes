@@ -2,7 +2,7 @@
   "name": "github-user-notes",
   "type": "module",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "packageManager": "pnpm@12.6.0",
   "license": "MIT",
   "scripts": {

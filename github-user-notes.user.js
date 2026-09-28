@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         GitHub User Notes
-// @version      0.1.0
+// @version      0.1.1
 // @description  Add private local notes to GitHub user profiles
 // @license      MIT
 // @author       VChet
