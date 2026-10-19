@@ -30,75 +30,6 @@
     return username;
   }
 
-  function getNote(username) {
-    return GM_getValue(`${KEY_PREFIX}${username}`, "");
-  }
-  function setNote(username, note) {
-    const key = `${KEY_PREFIX}${username}`;
-    note ? GM_setValue(key, note) : GM_deleteValue(key);
-  }
-
-  function createNotesBlock(username) {
-    const note = getNote(username);
-
-    const containerEl = document.createElement("div");
-    containerEl.classList.add("github-user-notes", "border-top", "color-border-muted", "pt-3", "mt-3");
-
-    const titleEl = document.createElement("h2");
-    titleEl.classList.add("h4", "mb-2");
-    titleEl.textContent = "Personal note";
-    titleEl.hidden = !note;
-
-    const textEl = document.createElement("div");
-    textEl.style.whiteSpace = "pre-wrap";
-    textEl.textContent = note;
-
-    const textareaEl = document.createElement("textarea");
-    textareaEl.classList.add("form-control", "FormControl-input", "FormControl-textarea");
-    textareaEl.id = "github-user-notes-textarea";
-    textareaEl.style.resize = "vertical";
-    textareaEl.style.minHeight = "2lh";
-    textareaEl.maxLength = MAX_NOTE_LENGTH;
-    textareaEl.placeholder = "Enter your note here…";
-    textareaEl.value = note;
-    textareaEl.hidden = true;
-
-    const captionEl = document.createElement("span");
-    captionEl.classList.add("FormControl-caption");
-    captionEl.textContent = `Maximum ${MAX_NOTE_LENGTH} characters. This note will only be visible to you.`;
-    captionEl.hidden = true;
-
-    const buttonEl = document.createElement("button");
-    buttonEl.type = "button";
-    buttonEl.classList.add("btn", "btn-block", "mt-2");
-    buttonEl.textContent = note ? "Edit note" : "Add note";
-
-    containerEl.append(titleEl, textEl, textareaEl, captionEl, buttonEl);
-
-    buttonEl.addEventListener("click", () => {
-      if (textareaEl.hidden) {
-        textEl.hidden = true;
-        textareaEl.hidden = false;
-        captionEl.hidden = false;
-        buttonEl.textContent = "Save note";
-        textareaEl.focus();
-        return;
-      }
-
-      const note = textareaEl.value.trim();
-      setNote(username, note);
-      textareaEl.value = note;
-      textEl.textContent = note;
-      textareaEl.hidden = true;
-      captionEl.hidden = true;
-      textEl.hidden = false;
-      titleEl.hidden = !note;
-      buttonEl.textContent = note ? "Edit note" : "Add note";
-    });
-
-    return containerEl;
-  }
-
   function addNotesBlock() {
     if (!location.pathname.match(/^\/[^/]+\/?$/)) return;
     if (document.querySelector(".github-user-notes")) return;
@@ -109,11 +40,68 @@
     const username = getUsername();
     if (!username) return;
 
-    const notesBlock = createNotesBlock(username);
-    profileArea.after(notesBlock);
+    const KEY = `${KEY_PREFIX}${username}`;
+    const savedNote = GM_getValue(KEY, "");
+
+    const containerEl = document.createElement("div");
+    containerEl.classList.add("github-user-notes", "border-top", "color-border-muted", "pt-3", "mt-3");
+
+    const titleEl = document.createElement("h2");
+    titleEl.classList.add("h4", "mb-2");
+    titleEl.textContent = "Personal note";
+    titleEl.hidden = !savedNote;
+
+    const textEl = document.createElement("div");
+    textEl.style.whiteSpace = "pre-wrap";
+    textEl.textContent = savedNote;
+
+    const textareaEl = document.createElement("textarea");
+    textareaEl.classList.add("form-control", "FormControl-input", "FormControl-textarea");
+    textareaEl.id = "github-user-notes-textarea";
+    textareaEl.maxLength = MAX_NOTE_LENGTH;
+    textareaEl.placeholder = "Enter your note here…";
+    textareaEl.value = savedNote;
+    textareaEl.style.resize = "vertical";
+    textareaEl.style.minHeight = "2lh";
+    textareaEl.hidden = true;
+
+    const captionEl = document.createElement("span");
+    captionEl.classList.add("FormControl-caption");
+    captionEl.textContent = `Maximum ${MAX_NOTE_LENGTH} characters. This note will only be visible to you.`;
+    captionEl.hidden = true;
+
+    const buttonEl = document.createElement("button");
+    buttonEl.type = "button";
+    buttonEl.classList.add("btn", "btn-block", "mt-2");
+    buttonEl.textContent = savedNote ? "Edit note" : "Add note";
+
+    function setEditState(isEditing) {
+      const hasNote = !!textEl.textContent.trim();
+      textareaEl.hidden = !isEditing;
+      captionEl.hidden = !isEditing;
+      textEl.hidden = isEditing;
+      titleEl.hidden = isEditing || !hasNote;
+      buttonEl.textContent = isEditing ? "Save note" : hasNote ? "Edit note" : "Add note";
+    }
+
+    buttonEl.addEventListener("click", () => {
+      if (textareaEl.hidden) {
+        setEditState(true);
+        textareaEl.focus();
+        return;
+      }
+
+      const newNote = textareaEl.value.trim();
+      newNote ? GM_setValue(KEY, newNote) : GM_deleteValue(KEY);
+      textareaEl.value = newNote;
+      textEl.textContent = newNote;
+      setEditState(false);
+    });
+
+    containerEl.append(titleEl, textEl, textareaEl, captionEl, buttonEl);
+    profileArea.after(containerEl);
   }
 
   addNotesBlock();
-
   document.addEventListener("turbo:load", addNotesBlock);
 })();
