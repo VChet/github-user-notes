@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         GitHub User Notes
 // @version      0.1.1
-// @description  Add private local notes to GitHub user profiles
+// @description  Add private local notes to GitHub and Gist user profiles
 // @license      MIT
 // @author       VChet
 // @icon         https://github.com/favicon.ico
 // @namespace    github-user-notes
 // @match        https://github.com/*
+// @match        https://gist.github.com/*
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_deleteValue

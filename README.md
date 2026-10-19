@@ -3,7 +3,7 @@
 [![version][version-img]][version-link]
 [![install][install-img]][install-link]
 
-UserScript for GitHub that allows you to add private local notes to user profiles.
+UserScript for GitHub and Gist that allows you to add private local notes to user profiles.
 
 Notes are stored locally in your browser and are never sent to GitHub or any third-party service.
 
