@@ -21,7 +21,6 @@
 (() => {
   const MAX_NOTE_LENGTH = 250;
   const KEY_PREFIX = "user-note:";
-  const styles = ".github-user-notes-text { white-space: pre-wrap; }";
 
   function getUsername() {
     const usernameEl = document.querySelector(".p-nickname.vcard-username");
@@ -51,7 +50,7 @@
     titleEl.hidden = !note;
 
     const textEl = document.createElement("div");
-    textEl.classList.add("github-user-notes-text");
+    textEl.style.whiteSpace = "pre-wrap";
     textEl.textContent = note;
 
     const textareaEl = document.createElement("textarea");
@@ -100,14 +99,6 @@
     return containerEl;
   }
 
-  function addStyles() {
-    if (document.querySelector("#github-user-notes-styles")) return;
-    const style = document.createElement("style");
-    style.id = "github-user-notes-styles";
-    style.textContent = styles;
-    document.head.append(style);
-  }
-
   function addNotesBlock() {
     if (!location.pathname.match(/^\/[^/]+\/?$/)) return;
     if (document.querySelector(".github-user-notes")) return;
@@ -122,7 +113,6 @@
     profileArea.after(notesBlock);
   }
 
-  addStyles();
   addNotesBlock();
 
   document.addEventListener("turbo:load", addNotesBlock);
