@@ -36,7 +36,6 @@
   }
   function setNote(username, note) {
     const key = `${KEY_PREFIX}${username}`;
-    note = note.trim();
     note ? GM_setValue(key, note) : GM_deleteValue(key);
   }
 
@@ -49,6 +48,7 @@
     const titleEl = document.createElement("h2");
     titleEl.classList.add("h4", "mb-2");
     titleEl.textContent = "Personal note";
+    titleEl.hidden = !note;
 
     const textEl = document.createElement("div");
     textEl.classList.add("github-user-notes-text");
@@ -72,7 +72,7 @@
     const buttonEl = document.createElement("button");
     buttonEl.type = "button";
     buttonEl.classList.add("btn", "btn-block", "mt-2");
-    buttonEl.textContent = "Edit note";
+    buttonEl.textContent = note ? "Edit note" : "Add note";
 
     containerEl.append(titleEl, textEl, textareaEl, captionEl, buttonEl);
 
@@ -86,12 +86,15 @@
         return;
       }
 
-      setNote(username, textareaEl.value);
-      textEl.textContent = textareaEl.value;
+      const note = textareaEl.value.trim();
+      setNote(username, note);
+      textareaEl.value = note;
+      textEl.textContent = note;
       textareaEl.hidden = true;
       captionEl.hidden = true;
       textEl.hidden = false;
-      buttonEl.textContent = "Edit note";
+      titleEl.hidden = !note;
+      buttonEl.textContent = note ? "Edit note" : "Add note";
     });
 
     return containerEl;
