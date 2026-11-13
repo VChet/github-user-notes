@@ -105,4 +105,7 @@
 
   addNotesBlock();
   document.addEventListener("turbo:load", addNotesBlock);
+
+  const observer = new MutationObserver(addNotesBlock);
+  observer.observe(document.documentElement, { childList: true, subtree: true });
 })();
