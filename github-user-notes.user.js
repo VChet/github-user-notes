@@ -82,6 +82,7 @@
       textEl.hidden = isEditing;
       titleEl.hidden = isEditing || !hasNote;
       buttonEl.textContent = isEditing ? "Save note" : hasNote ? "Edit note" : "Add note";
+      buttonEl.classList.toggle("Button--primary", isEditing);
     }
 
     buttonEl.addEventListener("click", () => {
