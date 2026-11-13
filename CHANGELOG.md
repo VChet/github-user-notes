@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.2.1 (2026-11-13)
+
+### Features
+
+* color button ([8c4526c](https://github.com/VChet/github-user-notes/commit/8c4526c8c97def751ac5f6f1f517ff9f8cc5760c))
+
+### Bug Fixes
+
+* watch profile DOM changes and restore notes block ([c0d8f00](https://github.com/VChet/github-user-notes/commit/c0d8f00f225351736d238825c1f19ed92de9bffb))
+
 ## 0.2.0 (2026-10-19)
 
 ### Features

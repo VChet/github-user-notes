@@ -2,7 +2,7 @@
   "name": "github-user-notes",
   "type": "module",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "packageManager": "pnpm@12.18.0",
   "engines": {
     "node": ">=24.22.2"
